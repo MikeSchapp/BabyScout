@@ -19,26 +19,32 @@ class Scout:
         children = send_api_request(self.base_url, path)["results"]
         for child in children:
             self.children.append(child["id"])
-            self.timers[child["id"]] = []
+            self.timers[child["id"]] = {
+                "feedings": None,
+                "sleep": None
+            }
+
+    def send_data(self, child_id, activity, data={}):
+        path = activity
+        data['child'] = child_id
+        send_api_request(self.base_url, path, data=data)
+
 
     def resolve_timers(self, child_id, activity, data={}):
-        if self.timers.get(child_id):
+        if self.timers[child_id].get(activity):
             path = activity
-            timer =  self.timers[child_id][0]
+            timer =  self.timers[child_id][activity]
             data["timer"] = timer["timer_id"]
-            if timer["activity"] == activity:
-                send_api_request(self.base_url, path, data=data)
-            else:
-                send_api_request(path, data=data)
-                self.set_timer(child_id, activity)
+            send_api_request(self.base_url, path, data=data)
+            self.timers[child_id][activity] = None
         else: 
             self.set_timer(child_id, activity)
 
 
     def set_timer(self, child_id, activity):
         path = "timers"
-        timer = self.send_api_request(self.base_url, path=path, data={'child': child_id})
-        self.timers[child_id].append({"activity": activity, "timer_id": timer["id"]})
+        timer = send_api_request(self.base_url, path=path, data={'child': child_id})
+        self.timers[child_id][activity] = ({"activity": activity, "timer_id": timer["id"]})
         return timer
 
     def sleep(self, child_id):
@@ -49,11 +55,51 @@ class Scout:
         activity = "tummy-times"
         self.resolve_timers(child_id, activity)
 
+    def wet_diaper(self, child_id):
+        activity = 'changes'
+        data = {
+            "wet": True,
+            "solid": False
+        }
+        self.send_data(child_id, activity, data)
+
+    def solid_diaper(self, child_id):
+        activity = 'changes'
+        data = {
+            "wet": False,
+            "solid": True
+        }
+        self.send_data(child_id, activity, data)
+
+    def wet_solid_diaper(self, child_id):
+        activity = 'changes'
+        data = {
+            "wet": True,
+            "solid": True
+        }
+        self.send_data(child_id, activity, data)
+
     def breast_feed(self, child_id):
         activity = "feedings"
         data = {
             "type": "breast milk",
             "method": "both breasts"
+        }
+        self.resolve_timers(child_id, activity, data)
+
+    def left_breast(self, child_id):
+        activity = "feedings"
+        data = {
+            "type": "breast milk",
+            "method": "left breast"
+        }
+        self.resolve_timers(child_id, activity, data)
+
+    def right_breast(self, child_id):
+        activity = "feedings"
+        data = {
+            "type": "breast milk",
+            "method": "right breast"
         }
         self.resolve_timers(child_id, activity, data)
 
