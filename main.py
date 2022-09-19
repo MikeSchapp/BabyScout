@@ -55,8 +55,6 @@ def ensure_connection():
             print("Lost Connection")
             WLAN = connect_to_wifi(wlan_variables=WLAN_VARIABLES)
             print("Reconnected")
-            if not test_connection(BASE_URL):
-                BABY_SCOUT = connect_to_baby_buddy(base_url=BASE_URL)
         time.sleep(10)
 
         
