@@ -62,6 +62,7 @@ class Scout:
             "solid": False
         }
         self.send_data(child_id, activity, data)
+        print("Recorded Diaper Change")
 
     def solid_diaper(self, child_id):
         activity = 'changes'
@@ -70,6 +71,7 @@ class Scout:
             "solid": True
         }
         self.send_data(child_id, activity, data)
+        print("Recorded Diaper Change")
 
     def wet_solid_diaper(self, child_id):
         activity = 'changes'
@@ -78,6 +80,7 @@ class Scout:
             "solid": True
         }
         self.send_data(child_id, activity, data)
+        print("Recorded Diaper Change")
 
     def breast_feed(self, child_id):
         activity = "feedings"
@@ -86,6 +89,7 @@ class Scout:
             "method": "both breasts"
         }
         self.resolve_timers(child_id, activity, data)
+        print("Recorded Breast Feeding")
 
     def left_breast(self, child_id):
         activity = "feedings"
@@ -94,6 +98,7 @@ class Scout:
             "method": "left breast"
         }
         self.resolve_timers(child_id, activity, data)
+        print("Recorded Breast Feeding")
 
     def right_breast(self, child_id):
         activity = "feedings"
@@ -102,6 +107,7 @@ class Scout:
             "method": "right breast"
         }
         self.resolve_timers(child_id, activity, data)
+        print("Recorded Breast Feeding")
 
     def bottle_feed(self, child_id):
         activity = "feedings"
@@ -110,7 +116,7 @@ class Scout:
             "method": "bottle"
         }
         self.resolve_timers(child_id, activity, data)
-
+        print("Recorded Bottle Feeding")
 
 def connect_to_baby_buddy(base_url):
 # Attempt to establish connection to BabyBuddy Instance
@@ -125,4 +131,5 @@ def connect_to_baby_buddy(base_url):
             time.sleep(1)
             onboard_led()
     onboard_led(0)
+    print("Connected to BabyBuddy")
     return baby_buddy

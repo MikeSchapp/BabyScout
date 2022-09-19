@@ -30,3 +30,12 @@ def connect_to_wifi(wlan_variables):
     print("WLAN Connected")
     return wlan
 
+def test_connection(url):
+    try:
+        status = requests.get(url=url).status_code
+        if status == 200:
+            return True
+        return False
+    except:
+        return False
+
