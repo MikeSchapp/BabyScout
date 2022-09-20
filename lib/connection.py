@@ -7,7 +7,7 @@ from pin import onboard_led
 import time
 
 def send_api_request(base_url, path, headers={}, data={}):
-    auth_variables = utils.retrieve_auth_variables(utils.join_path(os.getcwd(), "env.json"))
+    auth_variables = utils.retrieve_auth_variables(utils.join_path(os.getcwd(), "secrets.json"))["AUTHORIZATION"]
     if headers:
         auth_variables.update(headers)
     if data:

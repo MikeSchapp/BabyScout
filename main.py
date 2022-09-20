@@ -15,10 +15,8 @@ BABY_SCOUT = connect_to_baby_buddy(base_url=BASE_URL)
 # Set default to first child in BabyBuddy, add functionality to allow for toggling between multiple children.
 child = BABY_SCOUT.children[0]
 
-
 # Create button matrix, matching gpio pin to the specific action you want to capture
 button_gpio_pins = [9,8,7,6,5,4,3,2]
-buttons = []
 button_actions = [
     BABY_SCOUT.left_breast,
     BABY_SCOUT.breast_feed,
@@ -29,6 +27,9 @@ button_actions = [
     BABY_SCOUT.wet_solid_diaper,
     BABY_SCOUT.sleep
 ]
+
+#Initialize buttons
+buttons = []
 for button in button_gpio_pins:
     buttons.append(create_button(button))
 
@@ -58,13 +59,9 @@ def ensure_connection():
         time.sleep(10)
 
         
-
+# Start thread to ensure internet connection
 _thread.start_new_thread(ensure_connection, ())
+
+# Begin button checking loop
 button_pressed()
-
-#baby1 = babyscout.children[0]
-#babyscout.bottle_feed(baby1)
-#time.sleep(1)
-#babyscout.bottle_feed(baby1)
-
 
