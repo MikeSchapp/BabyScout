@@ -13,7 +13,7 @@ jobs:
       uses: thedoctor0/zip-release@main
       with:
         type: 'zip'
-        directory: '/firmware'
+        path: 'firmware'
         filename: 'release.zip'
     - name: Upload Release
       uses: ncipollo/release-action@v1
