@@ -20,4 +20,5 @@ jobs:
       with:
         artifacts: "firmware/release.zip"
         token: ${{ secrets.GITHUB_TOKEN }}
+        allowUpdates: true
     
