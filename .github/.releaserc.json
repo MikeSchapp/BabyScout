@@ -4,7 +4,7 @@
     "@semantic-release/release-notes-generator",
     ["@semantic-release/github", {
       "assets": [
-        {"path": "release.zip", "label": "BabyScout Firmware"}
+        {"path": "firmware/release.zip", "label": "BabyScout Firmware"}
       ]
     }]
     ],
