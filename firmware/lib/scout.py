@@ -11,7 +11,6 @@ class Scout:
     def __init__(self, base_url):
         self.base_url = base_url
         self.children = []
-        self.timers = {}
         self.init_children()
 
     def init_children(self):
@@ -19,10 +18,6 @@ class Scout:
         children = send_api_request(self.base_url, path)["results"]
         for child in children:
             self.children.append(child["id"])
-            self.timers[child["id"]] = {
-                "feedings": None,
-                "sleep": None
-            }
 
     def send_data(self, child_id, activity, data={}):
         path = activity
@@ -31,21 +26,28 @@ class Scout:
 
 
     def resolve_timers(self, child_id, activity, data={}):
-        if self.timers[child_id].get(activity):
+        current_timer = self.get_timer(child_id, activity)
+        if current_timer:
             path = activity
-            timer =  self.timers[child_id][activity]
-            data["timer"] = timer["timer_id"]
+            data["timer"] = current_timer["id"]
             send_api_request(self.base_url, path, data=data)
-            self.timers[child_id][activity] = None
         else: 
             self.set_timer(child_id, activity)
 
 
     def set_timer(self, child_id, activity):
         path = "timers"
-        timer = send_api_request(self.base_url, path=path, data={'child': child_id})
-        self.timers[child_id][activity] = ({"activity": activity, "timer_id": timer["id"]})
+        timer = send_api_request(self.base_url, path=path, data={'child': child_id, "name": activity})
         return timer
+
+    def get_timer(self, child_id, activity):
+        path = "timers"
+        timer_response = send_api_request(self.base_url, path=path)
+        timers = timer_response.get("results", [])
+        for timer in timers:
+            if timer["name"] == activity and timer["child"] == child_id and timer["active"] == True:
+                return timer
+        return None
 
     def sleep(self, child_id):
         activity = "sleep"
