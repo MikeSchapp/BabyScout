@@ -1,9 +1,7 @@
 name: Create Archive and Release
 
 on: 
-  push:
-    tags:
-    - '*'
+  release
 jobs:
   build:
     runs-on: ubuntu-latest
