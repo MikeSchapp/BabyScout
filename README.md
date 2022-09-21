@@ -6,7 +6,7 @@ Pico W projects that intefaces with BabyBuddy to record baby diaper changes, fee
 * Code for Pico W
 * STL and 3MF files for a custom enclosure
 
-## Instructions
+## Geting Started
 1) Print out the enclosure that is detailed in the 3d folder. 
 2) Fill in the secrets.json file in the firmware folder with the wifi information as well as an api key for BabyScout to use to access BabyBuddy.
     * Make sure to rename the placeholder folder to secrets.json
