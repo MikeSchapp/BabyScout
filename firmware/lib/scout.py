@@ -47,6 +47,12 @@ class Scout:
         self.timers[child_id][activity] = ({"activity": activity, "timer_id": timer["id"]})
         return timer
 
+    def get_timer(self, child_id, activity):
+        path = "timers"
+        timer = send_api_request(self.base_url, path=path, data={'child': child_id})
+        self.timers[child_id][activity] = ({"activity": activity, "timer_id": timer["id"]})
+        return timer
+
     def sleep(self, child_id):
         activity = "sleep"
         self.resolve_timers(child_id, activity)
