@@ -7,6 +7,8 @@ from lib.utils import retrieve_auth_variables, join_path
 from lib.connection import connect_to_wifi, test_connection
 from lib.scout import connect_to_baby_buddy
 
+# Retrieve WLAN Variables from secrets.json and establish connectivity to WLAN and BabyScout
+
 WLAN_VARIABLES = retrieve_auth_variables(join_path(os.getcwd(), "secrets.json"))
 BASE_URL = WLAN_VARIABLES["BASE_URL"]
 WLAN = connect_to_wifi(wlan_variables=WLAN_VARIABLES)
