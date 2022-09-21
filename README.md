@@ -1,6 +1,6 @@
 # BabyScout
 
-Pico W projects that intefaces with BabyBuddy to record baby diaper changes, feedings, and sleep time with the push of a button. Push to start timers, and then push again to end them!
+Pico W projects that intefaces with [BabyBuddy](https://github.com/babybuddy/babybuddy)  to record baby diaper changes, feedings, and sleep time with the push of a button. Push to start timers, and then push again to end them!
 
 ## Includes
 * Code for Pico W
