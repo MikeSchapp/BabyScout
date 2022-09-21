@@ -22,6 +22,7 @@ Pico W projects that intefaces with BabyBuddy to record baby diaper changes, fee
 * Create script to automatically upload firmware to the pico w
 * Add prompts to help assemble the secrets.json file
 * Support multiple WIFI SSID's
+* Automatic Updates?
 
 ![Opened Enclosure](assets/Inside.jpg?raw=true "Title")
 ![Closed Enclosure](assets/Assembled.jpg?raw=true "Title")
