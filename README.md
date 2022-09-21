@@ -15,7 +15,7 @@ Pico W projects that intefaces with [BabyBuddy](https://github.com/babybuddy/bab
 5) Attach switches to the enclosure and wire them to the pico.
     * In my example I wired all of the switches to the 3.3v output of the pico, then an individual gpio pin per switch. I used 8 in my example, but feel free to add more switches and more functionality.
 6) Close up th enclosure and attach to power.
-
+ 
 ## Known issues
 * Currently The pico w is incapable of communicating via cloudfront tunnels. (Appears to be some bug with running out of memory)
 
