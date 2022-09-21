@@ -13,11 +13,11 @@ jobs:
       uses: thedoctor0/zip-release@main
       with:
         type: 'zip'
-        directory: '/firmware'
+        directory: 'firmware/'
         filename: 'release.zip'
     - name: Upload Release
       uses: ncipollo/release-action@v1
       with:
-        artifacts: "/firmware/release.zip"
+        artifacts: "firmware/release.zip"
         token: ${{ secrets.GITHUB_TOKEN }}
     
