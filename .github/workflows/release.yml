@@ -12,6 +12,12 @@ jobs:
         uses: actions/checkout@v2
         with:
           fetch-depth: 0
+      - name: Archive Release
+        uses: thedoctor0/zip-release@main
+        with:
+          type: 'zip'
+          directory: 'firmware/'
+          filename: 'release.zip'
       - name: Setup Node.js
         uses: actions/setup-node@v2
         with:
