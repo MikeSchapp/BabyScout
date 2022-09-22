@@ -4,16 +4,21 @@ import time
 import uos as os
 import _thread
 from lib.utils import retrieve_auth_variables, join_path
-from lib.connection import connect_to_wifi, test_connection
+from lib.connection import connect_to_access_point, scan_access_points, access_point_nearby, access_point_wifi_setup
 from lib.scout import connect_to_baby_buddy
 
 # Retrieve WLAN Variables from secrets.json and establish connectivity to WLAN and BabyScout
 
 WLAN_VARIABLES = retrieve_auth_variables(join_path(os.getcwd(), "secrets.json"))
 BASE_URL = WLAN_VARIABLES["BASE_URL"]
-WLAN = connect_to_wifi(wlan_variables=WLAN_VARIABLES)
+nearby_matching_access_point = access_point_nearby(scan_access_points(), WLAN_VARIABLES)
+if nearby_matching_access_point:
+    WLAN = connect_to_access_point(nearby_matching_access_point, WLAN_VARIABLES["SSIDS_PASSWORD"][nearby_matching_access_point])
+else:
+    print("No matching wifi, falling back to webpage based setup")
+    ap = access_point_wifi_setup()
+    
 BABY_SCOUT = connect_to_baby_buddy(base_url=BASE_URL)
-
 # Set default to first child in BabyBuddy, add functionality to allow for toggling between multiple children.
 child = BABY_SCOUT.children[0]
 
@@ -59,7 +64,7 @@ def ensure_connection():
         print("Testing Connection")
         if not WLAN.isconnected():
             print("Lost Connection")
-            WLAN = connect_to_wifi(wlan_variables=WLAN_VARIABLES)
+            WLAN = connect_to_access_point(wlan_variables=WLAN_VARIABLES)
             print("Reconnected")
         time.sleep(10)
 
@@ -69,3 +74,4 @@ _thread.start_new_thread(ensure_connection, ())
 
 # Begin button checking loop
 button_pressed()
+
