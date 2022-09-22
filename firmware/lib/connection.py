@@ -25,15 +25,17 @@ def send_api_request(base_url, path, headers={}, data={}):
         requests.get(url=base_url + path + "/", headers=auth_variables).content
     )
 
+
 def scan_access_points():
     nearby_access_point_list = []
     wlan = network.WLAN(network.STA_IF)
     wlan.active(True)
     nearby_access_points = wlan.scan()
     for ssid in nearby_access_points:
-       nearby_access_point_list.append(ssid[0].decode('utf-8'))
+        nearby_access_point_list.append(ssid[0].decode("utf-8"))
     wlan.active(False)
     return nearby_access_point_list
+
 
 def access_point_nearby(nearby_ssids, wlan_variables):
     matching_ssids = []
@@ -43,6 +45,7 @@ def access_point_nearby(nearby_ssids, wlan_variables):
     if matching_ssids:
         return matching_ssids[0]
     return None
+
 
 def connect_to_access_point(ssid, password):
     # Attempt to connect to WIFI
@@ -58,10 +61,11 @@ def connect_to_access_point(ssid, password):
     print("WLAN Connected")
     return wlan
 
+
 def access_point_wifi_setup():
     ap = network.WLAN(network.AP_IF)
     ap.config(essid="BabyScout", password="BabyBuddy")
-    ap.ifconfig(('192.168.0.2', '255.255.255.0', '192.168.0.1', '8.8.8.8'))
+    ap.ifconfig(("192.168.0.2", "255.255.255.0", "192.168.0.1", "8.8.8.8"))
     ap.active(True)
     return ap
 
@@ -74,4 +78,3 @@ def test_connection(url):
         return False
     except:
         return False
-
