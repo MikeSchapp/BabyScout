@@ -6,15 +6,25 @@ import network
 from pin import onboard_led
 import time
 
+
 def send_api_request(base_url, path, headers={}, data={}):
-    auth_variables = utils.retrieve_auth_variables(utils.join_path(os.getcwd(), "secrets.json"))["AUTHORIZATION"]
+    auth_variables = utils.retrieve_auth_variables(
+        utils.join_path(os.getcwd(), "secrets.json")
+    )["AUTHORIZATION"]
     if headers:
         auth_variables.update(headers)
     if data:
         data = json.dumps(data)
-        auth_variables['Content-Type'] = 'application/json'
-        return json.loads(requests.post(url= base_url + path + "/", headers=auth_variables, data=data).content)
-    return json.loads(requests.get(url= base_url + path + "/", headers=auth_variables).content)
+        auth_variables["Content-Type"] = "application/json"
+        return json.loads(
+            requests.post(
+                url=base_url + path + "/", headers=auth_variables, data=data
+            ).content
+        )
+    return json.loads(
+        requests.get(url=base_url + path + "/", headers=auth_variables).content
+    )
+
 
 def connect_to_wifi(wlan_variables):
     # Attempt to connect to WIFI
@@ -30,6 +40,7 @@ def connect_to_wifi(wlan_variables):
     print("WLAN Connected")
     return wlan
 
+
 def test_connection(url):
     try:
         status = requests.get(url=url).status_code
@@ -38,4 +49,3 @@ def test_connection(url):
         return False
     except:
         return False
-

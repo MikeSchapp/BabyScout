@@ -18,7 +18,7 @@ BABY_SCOUT = connect_to_baby_buddy(base_url=BASE_URL)
 child = BABY_SCOUT.children[0]
 
 # Create button matrix, matching gpio pin to the specific action you want to capture
-button_gpio_pins = [9,8,7,6,5,4,3,2]
+button_gpio_pins = [9, 8, 7, 6, 5, 4, 3, 2]
 button_actions = [
     BABY_SCOUT.left_breast,
     BABY_SCOUT.breast_feed,
@@ -27,16 +27,17 @@ button_actions = [
     BABY_SCOUT.wet_diaper,
     BABY_SCOUT.solid_diaper,
     BABY_SCOUT.wet_solid_diaper,
-    BABY_SCOUT.sleep
+    BABY_SCOUT.sleep,
 ]
 
-#Initialize buttons
+# Initialize buttons
 buttons = []
 for button in button_gpio_pins:
     buttons.append(create_button(button))
 
 
 # Loop through and check if any button has been pressed.
+
 
 def button_pressed():
     while True:
@@ -47,7 +48,9 @@ def button_pressed():
                 onboard_led(0)
                 button_actions[index](child)
 
+
 # Continually check and assure connectivity to wireless and babyscout
+
 
 def ensure_connection():
     global WLAN
@@ -60,10 +63,9 @@ def ensure_connection():
             print("Reconnected")
         time.sleep(10)
 
-        
+
 # Start thread to ensure internet connection
 _thread.start_new_thread(ensure_connection, ())
 
 # Begin button checking loop
 button_pressed()
-
