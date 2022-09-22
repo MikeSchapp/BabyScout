@@ -1,3 +1,4 @@
+from typing import List, Tuple
 import urequests as requests
 import ujson as json
 import utils
@@ -25,6 +26,24 @@ def send_api_request(base_url, path, headers={}, data={}):
         requests.get(url=base_url + path + "/", headers=auth_variables).content
     )
 
+def scan_access_points():
+    wlan = network.WLAN(network.STA_IF)
+    wlan.active(True)
+    nearby_wifi = wlan.scan()
+    wlan.active(False)
+    return nearby_wifi
+
+def wlan_nearby(nearby_ssids, wlan_variables):
+    matching_ssids = []
+    ssid_list = []
+    for ssid in nearby_ssids:
+       ssid_list.append(ssid[0])
+    for ssid in wlan_variables["SSIDS_PASSWORD"].keys():
+        if ssid in ssid_list:
+            matching_ssids.append(ssid)
+    if matching_ssids:
+        return matching_ssids[0]
+    return None
 
 def connect_to_wifi(wlan_variables):
     # Attempt to connect to WIFI
@@ -39,6 +58,12 @@ def connect_to_wifi(wlan_variables):
         time.sleep(0.5)
     print("WLAN Connected")
     return wlan
+
+def access_point_wifi_setup():
+    ap = network.WLAN(network.AP_IF)
+    ap.config(essid="BabyScout", password="BabyBuddy")
+    ap.active(True)
+    return ap
 
 
 def test_connection(url):
