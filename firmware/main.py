@@ -9,7 +9,10 @@ from lib.connection import (
     scan_access_points,
     access_point_nearby,
     access_point_wifi_setup,
+    open_socket,
+    serve
 )
+from lib.webpage import webpage
 from lib.scout import connect_to_baby_buddy
 
 # Retrieve WLAN Variables from secrets.json and establish connectivity to WLAN and BabyScout
@@ -25,6 +28,10 @@ if nearby_matching_access_point:
 else:
     print("No matching wifi, falling back to webpage based setup")
     ap = access_point_wifi_setup()
+    ip = ap.ifconfig()[0]
+    socket = open_socket(ip, 80)
+    serve(socket, webpage())
+
 
 BABY_SCOUT = connect_to_baby_buddy(base_url=BASE_URL)
 # Set default to first child in BabyBuddy, add functionality to allow for toggling between multiple children.
@@ -82,3 +89,4 @@ _thread.start_new_thread(ensure_connection, ())
 
 # Begin button checking loop
 button_pressed()
+

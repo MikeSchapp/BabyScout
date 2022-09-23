@@ -3,8 +3,10 @@ import ujson as json
 import utils
 import uos as os
 import network
+import socket
 from pin import onboard_led
 import time
+from request import Request
 
 
 def send_api_request(base_url, path, headers={}, data={}):
@@ -65,9 +67,26 @@ def connect_to_access_point(ssid, password):
 def access_point_wifi_setup():
     ap = network.WLAN(network.AP_IF)
     ap.config(essid="BabyScout", password="BabyBuddy")
-    ap.ifconfig(("192.168.0.2", "255.255.255.0", "192.168.0.1", "8.8.8.8"))
     ap.active(True)
+    print(ap)
     return ap
+
+def open_socket(ip, port):
+    address = (ip, port)
+    new_socket = socket.socket()
+    new_socket.bind((ip, port))
+    new_socket.listen(1)
+    return new_socket
+
+def serve(socket, webpage):
+    while True:
+        client = socket.accept()[0]
+        request = client.recv(1024)
+        print(request)
+        request = Request(request.decode('utf-8'))
+        print(request)
+        client.send(webpage)
+        client.close()
 
 
 def test_connection(url):
@@ -78,3 +97,4 @@ def test_connection(url):
         return False
     except:
         return False
+
