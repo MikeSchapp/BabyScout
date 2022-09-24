@@ -21,7 +21,8 @@ from lib.webrouter import WebRouter
 
 WLAN_VARIABLES = retrieve_auth_variables(join_path(os.getcwd(), "secrets.json"))
 BASE_URL = WLAN_VARIABLES["BASE_URL"]
-nearby_matching_access_point = access_point_nearby(scan_access_points(), WLAN_VARIABLES)
+local_access_points = scan_access_points()
+nearby_matching_access_point = access_point_nearby(local_access_points, WLAN_VARIABLES["SSIDS_PASSWORD"].keys())
 if nearby_matching_access_point:
     WLAN = connect_to_access_point(
         nearby_matching_access_point,

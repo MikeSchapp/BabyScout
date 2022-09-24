@@ -36,12 +36,15 @@ def scan_access_points():
     for ssid in nearby_access_points:
         nearby_access_point_list.append(ssid[0].decode("utf-8"))
     wlan.active(False)
+    while '' in nearby_access_point_list:
+        nearby_access_point_list.remove('')
+    print(nearby_access_point_list)
     return nearby_access_point_list
 
 
-def access_point_nearby(nearby_ssids, wlan_variables):
+def access_point_nearby(nearby_ssids, configured_ssids):
     matching_ssids = []
-    for ssid in wlan_variables["SSIDS_PASSWORD"].keys():
+    for ssid in configured_ssids:
         if ssid in nearby_ssids:
             matching_ssids.append(ssid)
     if matching_ssids:
