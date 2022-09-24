@@ -3,6 +3,7 @@ class Request:
         self.raw = request
         self.method = None
         self.path = None
+        self.query_strings = None
         self.protocol = None
         self.headers = None
         self.body = None
@@ -13,6 +14,16 @@ class Request:
         split_request = request.split("\r\n")
         request_line = split_request.pop(0)
         self.method, self.path, self.protocol = request_line.split(" ")
+        if "?" in self.path:
+            query_strings = {}
+            self.path, raw_query = self.path.split("?")
+            raw_query = raw_query.split("&")
+            for query in raw_query:
+                key, value = query.split("=")
+                query_strings[key] = value
+            self.query_strings = query_strings
+            
+
         headers = {}
         for header in split_request:
             key, value = header.split(": ")

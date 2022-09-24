@@ -1,7 +1,9 @@
 from lib.pin import create_button, onboard_led
 import lib.scout as scout
 import time
+import machine
 import uos as os
+import ujson as json
 import _thread
 from lib.utils import retrieve_auth_variables, join_path
 from lib.connection import (
@@ -20,7 +22,15 @@ def default_route(*args, **kwargs):
     return load_webpage("lib/webpages/default.html")
 
 def config_route(*args, **kwargs):
-    return load_webpage("lib/webpages/config.html")
+    request = kwargs.get("request")
+    if request.query_strings:
+        if "secrets.json" in os.listdir():
+            with open("secrets.json", "r+") as secret:
+                secret_json = json.loads(secret.read())
+            with open("secrets.json", "w") as secret:
+                secret_json["SSIDS_PASSWORD"][request.query_strings["ssid"]] = request.query_strings["password"]
+                secret.write(json.dumps(secret_json))
+    machine.soft_reset()
 
 
 WLAN_VARIABLES = retrieve_auth_variables(join_path(os.getcwd(), "secrets.json"))
@@ -32,11 +42,11 @@ if nearby_matching_access_point:
         WLAN_VARIABLES["SSIDS_PASSWORD"][nearby_matching_access_point],
     )
 else:
-    print("No matching wifi, falling back to webpage based setup")
+    print("No matching wifi, falling back to webpage based setup.")
     ap = access_point_wifi_setup()
     ip = ap.ifconfig()[0]
     app = WebRouter(ip, 80, default_route)
-    app.route("/test")(config_route)()
+    app.route("/config")(config_route)()
     app.serve()
 
 
