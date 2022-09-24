@@ -1,7 +1,6 @@
 from lib.pin import create_button, onboard_led
 import lib.scout as scout
 import time
-import machine
 import uos as os
 import ujson as json
 import _thread
@@ -12,26 +11,13 @@ from lib.connection import (
     access_point_nearby,
     access_point_wifi_setup
 )
-from lib.webpage import load_webpage
+from lib.webpage import config_route, default_route
 from lib.scout import connect_to_baby_buddy
 from lib.webrouter import WebRouter
 
 # Retrieve WLAN Variables from secrets.json and establish connectivity to WLAN and BabyScout
 
-def default_route(*args, **kwargs):
-    return load_webpage("lib/webpages/default.html")
-
-def config_route(*args, **kwargs):
-    request = kwargs.get("request")
-    if request.query_strings:
-        if "secrets.json" in os.listdir():
-            with open("secrets.json", "r+") as secret:
-                secret_json = json.loads(secret.read())
-            with open("secrets.json", "w") as secret:
-                secret_json["SSIDS_PASSWORD"][request.query_strings["ssid"]] = request.query_strings["password"]
-                secret.write(json.dumps(secret_json))
-    machine.soft_reset()
-
+# Case when secrets.json does not exist
 
 WLAN_VARIABLES = retrieve_auth_variables(join_path(os.getcwd(), "secrets.json"))
 BASE_URL = WLAN_VARIABLES["BASE_URL"]
