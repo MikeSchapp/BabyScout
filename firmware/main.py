@@ -8,14 +8,20 @@ from lib.connection import (
     connect_to_access_point,
     scan_access_points,
     access_point_nearby,
-    access_point_wifi_setup,
-    open_socket,
-    serve
+    access_point_wifi_setup
 )
-from lib.webpage import webpage
+from lib.webpage import load_webpage
 from lib.scout import connect_to_baby_buddy
+from lib.webrouter import WebRouter
 
 # Retrieve WLAN Variables from secrets.json and establish connectivity to WLAN and BabyScout
+
+def default_route(*args, **kwargs):
+    return load_webpage("lib/webpages/default.html")
+
+def config_route(*args, **kwargs):
+    return load_webpage("lib/webpages/config.html")
+
 
 WLAN_VARIABLES = retrieve_auth_variables(join_path(os.getcwd(), "secrets.json"))
 BASE_URL = WLAN_VARIABLES["BASE_URL"]
@@ -29,8 +35,9 @@ else:
     print("No matching wifi, falling back to webpage based setup")
     ap = access_point_wifi_setup()
     ip = ap.ifconfig()[0]
-    socket = open_socket(ip, 80)
-    serve(socket, webpage())
+    app = WebRouter(ip, 80, default_route)
+    app.route("/test")(config_route)()
+    app.serve()
 
 
 BABY_SCOUT = connect_to_baby_buddy(base_url=BASE_URL)

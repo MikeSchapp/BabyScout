@@ -68,25 +68,9 @@ def access_point_wifi_setup():
     ap = network.WLAN(network.AP_IF)
     ap.config(essid="BabyScout", password="BabyBuddy")
     ap.active(True)
+    print(ap.status())
     print(ap)
     return ap
-
-def open_socket(ip, port):
-    address = (ip, port)
-    new_socket = socket.socket()
-    new_socket.bind((ip, port))
-    new_socket.listen(1)
-    return new_socket
-
-def serve(socket, webpage):
-    while True:
-        client = socket.accept()[0]
-        request = client.recv(1024)
-        print(request)
-        request = Request(request.decode('utf-8'))
-        print(request)
-        client.send(webpage)
-        client.close()
 
 
 def test_connection(url):
