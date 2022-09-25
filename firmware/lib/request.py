@@ -10,7 +10,11 @@ class Request:
         self.parse_request()
 
     def parse_request(self):
-        request, self.body = self.raw.split("\r\n\r\n")
+        print(self.raw)
+        try:
+            request, self.body = self.raw.split("\r\n\r\n")
+        except ValueError:
+            request = self.raw
         split_request = request.split("\r\n")
         request_line = split_request.pop(0)
         self.method, self.path, self.protocol = request_line.split(" ")
