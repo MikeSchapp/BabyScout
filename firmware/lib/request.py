@@ -22,15 +22,9 @@ class Request:
                 key, value = query.split("=")
                 query_strings[key] = value
             self.query_strings = query_strings
-            
 
         headers = {}
         for header in split_request:
             key, value = header.split(": ")
             headers[key] = value
         self.headers = headers
-
-        
-
-
-

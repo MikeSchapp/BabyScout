@@ -1,20 +1,20 @@
 from request import Request
 import socket
 
+
 class WebRouter:
     def __init__(self, ip, port, default):
-        self.routes = {
-            "default": default
-        }
+        self.routes = {"default": default}
         self.socket = self.open_socket(ip, port)
-    
+
     def route(self, path):
         def router(function):
             def wrapper(*args, **kwargs):
                 self.routes[path] = function
+
             return wrapper
+
         return router
-            
 
     @staticmethod
     def open_socket(ip, port):
@@ -28,7 +28,7 @@ class WebRouter:
         while True:
             client = self.socket.accept()[0]
             request = client.recv(1024)
-            request = Request(request.decode('utf-8'))
+            request = Request(request.decode("utf-8"))
             path = request.path
             if path in self.routes.keys():
                 webpage = self.routes[path](request=request)
@@ -36,4 +36,3 @@ class WebRouter:
                 webpage = self.routes["default"](request=request)
             client.send(webpage)
             client.close()
-

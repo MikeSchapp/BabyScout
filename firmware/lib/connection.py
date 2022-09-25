@@ -30,7 +30,7 @@ class PicoConnection:
         return ap
 
     def connect_to_access_point(self, ssid, password):
-    # Attempt to connect to WIFI
+        # Attempt to connect to WIFI
         if ssid not in self.nearby_access_points:
             return False
         self.wlan.active(True)
@@ -43,7 +43,6 @@ class PicoConnection:
             time.sleep(0.5)
         print("WLAN Connected")
         return True
-    
 
     def scan_access_points(self):
         nearby_access_point_list = []
@@ -51,11 +50,10 @@ class PicoConnection:
         for ssid in nearby_access_points:
             nearby_access_point_list.append(ssid[0].decode("utf-8"))
         self.wlan.active(False)
-        while '' in nearby_access_point_list:
-            nearby_access_point_list.remove('')
+        while "" in nearby_access_point_list:
+            nearby_access_point_list.remove("")
         print(nearby_access_point_list)
         return nearby_access_point_list
-
 
     def access_point_nearby(self, configured_ssids):
         matching_ssids = []
@@ -65,4 +63,3 @@ class PicoConnection:
         if matching_ssids:
             return matching_ssids[0]
         return None
-

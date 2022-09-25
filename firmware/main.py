@@ -21,7 +21,9 @@ ap_mode = False
 
 
 if auth_variables_valid(WLAN_VARIABLES):
-    nearby_matching_access_point = pico_connection.access_point_nearby(WLAN_VARIABLES.get("SSIDS_PASSWORD").keys())
+    nearby_matching_access_point = pico_connection.access_point_nearby(
+        WLAN_VARIABLES.get("SSIDS_PASSWORD").keys()
+    )
     if nearby_matching_access_point:
         pico_connection.connect_to_access_point(
             nearby_matching_access_point,
@@ -49,9 +51,7 @@ if auth_variables_valid(WLAN_VARIABLES):
         for button in button_gpio_pins:
             buttons.append(create_button(button))
 
-
         # Loop through and check if any button has been pressed.
-
 
         def button_pressed():
             while True:
@@ -62,9 +62,7 @@ if auth_variables_valid(WLAN_VARIABLES):
                         onboard_led(0)
                         button_actions[index](child)
 
-
         # Continually check and assure connectivity to wireless and babyscout
-
 
         def ensure_connection():
             while True:
@@ -75,8 +73,7 @@ if auth_variables_valid(WLAN_VARIABLES):
                 time.sleep(10)
 
         # Start thread to ensure internet connection
-        _thread.start_new_thread(ensure_connection, ()
-        )
+        _thread.start_new_thread(ensure_connection, ())
 
         # Begin button checking loop
         button_pressed()
@@ -91,4 +88,3 @@ if ap_mode:
     app = WebRouter(ip, 80, default_route)
     app.route("/config")(config_route)()
     app.serve()
-

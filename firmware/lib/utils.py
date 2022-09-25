@@ -8,6 +8,7 @@ def retrieve_auth_variables(auth_path):
     except:
         return None
 
+
 def auth_variables_valid(loaded_auth):
     ssids = loaded_auth.get("SSIDS_PASSWORD")
     base_url = loaded_auth.get("BASE_URL")
@@ -15,6 +16,7 @@ def auth_variables_valid(loaded_auth):
     if not ssids or not base_url or not auth:
         return False
     return True
+
 
 def get_base_path(path):
     split_path = path.split("/")
