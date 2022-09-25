@@ -9,79 +9,60 @@ import time
 from request import Request
 
 
-def send_api_request(base_url, path, headers={}, data={}):
-    auth_variables = utils.retrieve_auth_variables(
-        utils.join_path(os.getcwd(), "secrets.json")
-    )["AUTHORIZATION"]
-    if headers:
-        auth_variables.update(headers)
-    if data:
-        data = json.dumps(data)
-        auth_variables["Content-Type"] = "application/json"
-        return json.loads(
-            requests.post(
-                url=base_url + path + "/", headers=auth_variables, data=data
-            ).content
-        )
-    return json.loads(
-        requests.get(url=base_url + path + "/", headers=auth_variables).content
-    )
+class PicoConnection:
+    def __init__(self):
+        self.wlan = self.wireless_client_setup()
+        self.nearby_access_points = self.scan_access_points()
 
+    @staticmethod
+    def wireless_client_setup():
+        wlan = network.WLAN(network.STA_IF)
+        wlan.active(True)
+        return wlan
 
-def scan_access_points():
-    nearby_access_point_list = []
-    wlan = network.WLAN(network.STA_IF)
-    wlan.active(True)
-    nearby_access_points = wlan.scan()
-    for ssid in nearby_access_points:
-        nearby_access_point_list.append(ssid[0].decode("utf-8"))
-    wlan.active(False)
-    while '' in nearby_access_point_list:
-        nearby_access_point_list.remove('')
-    print(nearby_access_point_list)
-    return nearby_access_point_list
+    @staticmethod
+    def access_point_wifi_setup():
+        ap = network.WLAN(network.AP_IF)
+        ap.config(essid="BabyScout", password="BabyBuddy")
+        ap.active(True)
+        print(ap.status())
+        print(ap)
+        return ap
 
-
-def access_point_nearby(nearby_ssids, configured_ssids):
-    matching_ssids = []
-    for ssid in configured_ssids:
-        if ssid in nearby_ssids:
-            matching_ssids.append(ssid)
-    if matching_ssids:
-        return matching_ssids[0]
-    return None
-
-
-def connect_to_access_point(ssid, password):
+    def connect_to_access_point(self, ssid, password):
     # Attempt to connect to WIFI
-    wlan = network.WLAN(network.STA_IF)
-    wlan.active(True)
-    wlan.connect(ssid, password)
-    print(f"Attempting to connect to {ssid}")
-    while not wlan.isconnected():
-        onboard_led()
-        time.sleep(0.5)
-        onboard_led()
-        time.sleep(0.5)
-    print("WLAN Connected")
-    return wlan
+        if ssid not in self.nearby_access_points:
+            return False
+        self.wlan.active(True)
+        self.wlan.connect(ssid, password)
+        print(f"Attempting to connect to {ssid}")
+        while not self.wlan.isconnected():
+            onboard_led()
+            time.sleep(0.5)
+            onboard_led()
+            time.sleep(0.5)
+        print("WLAN Connected")
+        return True
+    
+
+    def scan_access_points(self):
+        nearby_access_point_list = []
+        nearby_access_points = self.wlan.scan()
+        for ssid in nearby_access_points:
+            nearby_access_point_list.append(ssid[0].decode("utf-8"))
+        self.wlan.active(False)
+        while '' in nearby_access_point_list:
+            nearby_access_point_list.remove('')
+        print(nearby_access_point_list)
+        return nearby_access_point_list
 
 
-def access_point_wifi_setup():
-    ap = network.WLAN(network.AP_IF)
-    ap.config(essid="BabyScout", password="BabyBuddy")
-    ap.active(True)
-    print(ap.status())
-    print(ap)
-    return ap
-
-
-def test_connection(url):
-    try:
-        status = requests.get(url=url).status_code
-        if status == 200:
-            return True
-        return False
-    except:
-        return False
+    def access_point_nearby(self, configured_ssids):
+        matching_ssids = []
+        for ssid in configured_ssids:
+            if ssid in self.nearby_access_points:
+                matching_ssids.append(ssid)
+        if matching_ssids:
+            return matching_ssids[0]
+        return None
 

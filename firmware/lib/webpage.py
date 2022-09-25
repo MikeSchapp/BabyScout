@@ -24,4 +24,4 @@ def config_route(*args, **kwargs):
                 secret_json["SSIDS_PASSWORD"][request.query_strings["ssid"]] = request.query_strings["password"]
                 secret_json["AUTHORIZATION"]["Authorization"] = "Token " + request.query_strings["babyauth"]
                 secret.write(json.dumps(secret_json))
-    machine.soft_reset()
+    machine.reset()
