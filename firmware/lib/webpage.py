@@ -19,9 +19,8 @@ def default_route(*args, **kwargs):
     render = ""
     for option in options:
         for key, value in option.items():
-            render += f'''<label for="{key}">{value}</label><br> 
-            <input type="text" id="{key}" name="{key}" value=""><br><br>'''
-    return template.render_template(load_webpage("lib/webpages/default.html"), {"render": render})
+            render += f''' <input type="text" id="{key}" name="{key}" placeholder="{value}"><br><br>'''
+    return template.render_template(load_webpage("webpages/default.html"), {"render": render})
 
 
 def config_route(*args, **kwargs):

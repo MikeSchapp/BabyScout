@@ -85,6 +85,6 @@ if ap_mode:
     print("No matching wifi, falling back to webpage based setup.")
     ap = pico_connection.access_point_wifi_setup()
     ip = ap.ifconfig()[0]
-    app = WebRouter(ip, 80, default_route)
+    app = WebRouter(ip, 80, default_route, "webpages/static")
     app.route("/config")(config_route)()
     app.serve()

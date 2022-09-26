@@ -1,0 +1,22 @@
+body {
+    font-family: system-ui;
+    background: #242A2C;
+    color: #0E7487;
+    text-align: center;
+  }
+  
+  form {
+    width: 300px;
+    background: #2C454A;
+    border: 15px solid #2C454A;
+    padding: 50px;
+    margin: auto;
+    border-radius: 12px;
+  }
+  
+  input {
+    padding:10px;
+    border:0;
+    box-shadow:0 0 15px 4px rgba(0,0,0,0.06);
+    border-radius: 8px;
+  }
