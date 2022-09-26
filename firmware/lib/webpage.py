@@ -34,6 +34,7 @@ def config_route(*args, **kwargs):
             with open("secrets.json", "r+") as secret:
                 secret_json = json.loads(secret.read())
         with open("secrets.json", "w") as secret:
+            secret_json["SSIDS_PASSWORD"] = {}
             secret_json["SSIDS_PASSWORD"][
                 request.query_strings.get("ssid", "")
             ] = request.query_strings.get("password", "")

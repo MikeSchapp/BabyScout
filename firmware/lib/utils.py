@@ -10,6 +10,8 @@ def retrieve_auth_variables(auth_path):
 
 
 def auth_variables_valid(loaded_auth):
+    if not loaded_auth:
+        return False
     ssids = loaded_auth.get("SSIDS_PASSWORD")
     base_url = loaded_auth.get("BASE_URL")
     auth = loaded_auth.get("AUTHORIZATION")
