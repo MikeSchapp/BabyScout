@@ -26,7 +26,12 @@ Pico W projects that intefaces with [BabyBuddy](https://github.com/babybuddy/bab
 
 ### Alternative setup via WIFI
 
-After 
+if the secrets.json is not available, or not complete BabyScout will boot in AP mode. 
+        
+        SSID: BabyScout
+        Password: BabyBuddy
+
+Upon connecting to the AP, if you browse to http://192.168.4.1/ and fill out the necessary information it will automatically reboot and attempt to connect.
 
 ## Known issues
 
