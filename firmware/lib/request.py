@@ -1,3 +1,4 @@
+
 class Request:
     def __init__(self, request):
         self.raw = request
@@ -10,7 +11,6 @@ class Request:
         self.parse_request()
 
     def parse_request(self):
-        print(self.raw)
         try:
             request, self.body = self.raw.split("\r\n\r\n")
         except ValueError:

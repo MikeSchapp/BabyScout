@@ -46,17 +46,18 @@ class WebRouter:
         while True:
             client = self.socket.accept()[0]
             request = client.recv(1024)
-            request = Request(request.decode("utf-8"))
-            path = request.path
-            header = "HTTP/1.1 200 OK\n"
-            mimetype = self.determine_mimetype(path)
-            if path in self.routes.keys():
-                webpage = self.routes[path](request=request)
-            elif path in self.static_files:
-                with open(f"{self.static_location}/{path}", "rb") as static:
-                    webpage = static.read()
-            else:
-                webpage = self.routes["default"](request=request)
-            header += f"Content-Type: {mimetype}\n\n"
-            client.send(webpage)
-            client.close()
+            if request:
+                request = Request(request.decode("utf-8"))
+                path = request.path
+                header = "HTTP/1.1 200 OK\n"
+                mimetype = self.determine_mimetype(path)
+                if path in self.routes.keys():
+                    webpage = self.routes[path](request=request)
+                elif path in self.static_files:
+                    with open(f"{self.static_location}/{path}", "rb") as static:
+                        webpage = static.read()
+                else:
+                    webpage = self.routes["default"](request=request)
+                header += f"Content-Type: {mimetype}\n\n"
+                client.sendall(webpage)
+                client.close()
