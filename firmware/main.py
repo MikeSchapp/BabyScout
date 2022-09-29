@@ -6,7 +6,7 @@ from lib.utils import retrieve_auth_variables, join_path, auth_variables_valid
 from lib.connection import PicoConnection
 from lib.webpage import config_route, default_route
 from lib.scout import connect_to_baby_buddy
-from lib.picowebrouter import WebRouter
+from picowebrouter import WebRouter
 import machine
 
 # Retrieve WLAN Variables from secrets.json and establish connectivity to WLAN and BabyScout
