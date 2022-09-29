@@ -41,6 +41,8 @@ def config_route(*args, **kwargs):
             if request.query_strings.get("babybuddy"):
                 secret_json["BASE_URL"] = request.query_strings.get("babybuddy")
             if request.query_strings.get("babyauth"):
+                if "AUTHORIZATION" not in secret_json.keys():
+                    secret_json["AUTHORIZATION"] = {}
                 secret_json["AUTHORIZATION"][
                     "Authorization"
                 ] = request.query_strings.get("babyauth")
