@@ -40,9 +40,8 @@ Upon connecting to the AP, if you browse to http://192.168.4.1/ and fill out the
 ## TODO
 
 * Create script to automatically upload firmware to the pico w
-* Add prompts to help assemble the secrets.json file
-* Support multiple WIFI SSID's
 * Automatic Updates?
+* Add way to obfuscate stored secrets
 
 ![Opened Enclosure](assets/Inside.jpg?raw=true "Title")
 ![Closed Enclosure](assets/Assembled.jpg?raw=true "Title")
