@@ -2,8 +2,6 @@ import utils
 import urequests as requests
 import ujson as json
 import uos as os
-import ussl as ssl
-from micropython import *
 from pin import onboard_led
 import time
 

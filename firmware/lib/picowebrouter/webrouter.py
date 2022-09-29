@@ -1,6 +1,7 @@
-from request import Request
+from lib.picowebrouter.objects.request import Request
 import socket
 import uos as os
+from lib.picowebrouter.utils import walk_directories
 
 
 class WebRouter:
@@ -21,10 +22,11 @@ class WebRouter:
         return router
 
     def add_static(self):
-        static_files = os.listdir(self.static_location)
+        static_files = walk_directories(self.static_location)
         if static_files:
-            for file in static_files:
-                self.static_files.append(f"/{file}")
+            for directory in static_files.keys():
+                for file in static_files[directory]:
+                    self.static_files.append(f"{directory}/{file}")
 
     @staticmethod
     def open_socket(ip, port):
@@ -41,6 +43,7 @@ class WebRouter:
             mimetype = "text/javascript"
         if path.endswith(".css"):
             mimetype = "text/css"
+        return mimetype
 
     def serve(self):
         while True:
@@ -54,10 +57,11 @@ class WebRouter:
                 if path in self.routes.keys():
                     webpage = self.routes[path](request=request)
                 elif path in self.static_files:
-                    with open(f"{self.static_location}/{path}", "rb") as static:
+                    with open(path, "rb") as static:
                         webpage = static.read()
                 else:
                     webpage = self.routes["default"](request=request)
                 header += f"Content-Type: {mimetype}\n\n"
                 client.sendall(webpage)
                 client.close()
+

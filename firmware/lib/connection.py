@@ -1,12 +1,6 @@
-import urequests as requests
-import ujson as json
-import utils
-import uos as os
 import network
-import socket
 from pin import onboard_led
 import time
-from request import Request
 
 
 class PicoConnection:

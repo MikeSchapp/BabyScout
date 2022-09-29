@@ -1,15 +1,12 @@
-from cmath import pi
 from lib.pin import create_button, onboard_led
-import lib.scout as scout
 import time
 import uos as os
-import ujson as json
 import _thread
 from lib.utils import retrieve_auth_variables, join_path, auth_variables_valid
 from lib.connection import PicoConnection
 from lib.webpage import config_route, default_route
 from lib.scout import connect_to_baby_buddy
-from lib.webrouter import WebRouter
+from lib.picowebrouter import WebRouter
 import machine
 
 # Retrieve WLAN Variables from secrets.json and establish connectivity to WLAN and BabyScout
@@ -88,3 +85,4 @@ if ap_mode:
     app = WebRouter(ip, 80, default_route, "webpages/static")
     app.route("/config")(config_route)()
     app.serve()
+
