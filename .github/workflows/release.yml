@@ -20,7 +20,7 @@ jobs:
           eval "$(pyenv init -)"
           pyenv install micropython-1.19.1
           pyenv local micropython-1.19.1
-          micropython -m upip install -r requirements.txt -t 'firmware/'
+          micropython -m upip install -r requirements.txt -p 'firmware/'
       - name: Archive Release
         uses: thedoctor0/zip-release@main
         with:
