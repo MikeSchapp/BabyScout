@@ -12,12 +12,11 @@ jobs:
         uses: actions/checkout@v2
         with:
           fetch-depth: 0
-      - name: setup pyenv
-        uses: "gabrielfalcao/pyenv-action@v9"
-        with:
-            default: micropython-1.19.1
       - name: Install micropython dependencies
         run: |
+          git clone https://github.com/pyenv/pyenv.git ~/.pyenv
+          pyenv install micropython-1.19.1
+          pyenv local micropython-1.19.1
           micropython -m upip install -r requirements.txt -t 'firmware/'
       - name: Archive Release
         uses: thedoctor0/zip-release@main
