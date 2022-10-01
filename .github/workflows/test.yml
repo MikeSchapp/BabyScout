@@ -20,7 +20,10 @@ jobs:
           pyenv install micropython-1.19.1
           pyenv local micropython-1.19.1
           micropython -m upip install -r requirements.txt -p 'firmware/'
-          pyenv install 3.10.7
-          pyenv local 3.10.7
+      - name: Setup Python 3.10
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+        run: |
           pip install -r test-requirements.txt
           pytest
