@@ -3,7 +3,7 @@ import time
 import uos as os
 import _thread
 from lib.utils import retrieve_auth_variables, join_path, auth_variables_valid
-from lib.connection import PicoConnection
+from picoconnection import PicoConnection
 from lib.webpage import config_route, default_route
 from lib.scout import connect_to_baby_buddy
 from picowebrouter import WebRouter
@@ -80,7 +80,7 @@ else:
     ap_mode = True
 if ap_mode:
     print("No matching wifi, falling back to webpage based setup.")
-    ap = pico_connection.access_point_wifi_setup()
+    ap = pico_connection.access_point_wifi_setup("BabyScout", "BabyBuddy")
     ip = ap.ifconfig()[0]
     app = WebRouter(ip, 80, default_route, "webpages/static")
     app.route("/config")(config_route)()

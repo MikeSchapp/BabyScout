@@ -1,0 +1,31 @@
+name: Test
+on:
+  push
+
+jobs:
+  release:
+    name: Unit Test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - name: Install dependencies and run tests
+        run: |
+          git clone https://github.com/pyenv/pyenv.git ~/.pyenv
+          export PYENV_ROOT="$HOME/.pyenv"
+          command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
+          eval "$(pyenv init -)"
+          pyenv install micropython-1.19.1
+          pyenv local micropython-1.19.1
+          micropython -m upip install -r requirements.txt -p 'firmware/'
+      - name: Setup Python 3.10
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+      - name: Install dependencies
+        run: pip install -r test-requirements.txt
+      - name: Run tests
+        run: make run_tests
+
