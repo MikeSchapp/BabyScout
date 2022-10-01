@@ -2,7 +2,6 @@
     "SSIDS_PASSWORD": {
         "MYSSID": "MYPASSWORD"
     },
-    "BASE_URL": "http://baby.example.com/api/",
     "AUTHORIZATION": {
         "CF-Access-Client-Id": "my cloudfront tunnel id",
         "CF-Access-Client-Secret": "my cloudfront tunnel secret",
