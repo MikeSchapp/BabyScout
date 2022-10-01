@@ -15,9 +15,9 @@ class PicoConnection:
         return wlan
 
     @staticmethod
-    def access_point_wifi_setup():
+    def access_point_wifi_setup(essid, password):
         ap = network.WLAN(network.AP_IF)
-        ap.config(essid="BabyScout", password="BabyBuddy")
+        ap.config(essid=essid, password=password)
         ap.active(True)
         print(ap.status())
         print(ap)
