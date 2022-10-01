@@ -3,4 +3,5 @@ install_test_requirements:
 
 run_tests:
 	pytest --cov=firmware/lib
+	coverage xml
 	coverage report --fail-under=80
