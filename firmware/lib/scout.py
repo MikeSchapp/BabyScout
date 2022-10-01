@@ -2,8 +2,6 @@ from lib import utils
 import urequests as requests
 import ujson as json
 import uos as os
-from lib.pin import onboard_led
-import time
 
 
 class Scout:
@@ -112,10 +110,6 @@ def connect_to_baby_buddy(base_url):
             baby_buddy_reachable = True
         except OSError:
             print("Failed to connect to BabyBuddy")
-            onboard_led()
-            time.sleep(1)
-            onboard_led()
-    onboard_led(0)
     print("Connected to BabyBuddy")
     return baby_buddy
 
