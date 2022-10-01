@@ -1,7 +1,7 @@
 import uos as os
 import ujson as json
 import machine
-import template
+from lib import template
 
 
 def load_webpage(location):

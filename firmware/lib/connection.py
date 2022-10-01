@@ -1,5 +1,5 @@
 import network
-from pin import onboard_led
+from lib.pin import onboard_led
 import time
 
 

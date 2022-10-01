@@ -1,8 +1,8 @@
-import utils
+from lib import utils
 import urequests as requests
 import ujson as json
 import uos as os
-from pin import onboard_led
+from lib.pin import onboard_led
 import time
 
 

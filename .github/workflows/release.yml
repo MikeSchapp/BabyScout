@@ -1,5 +1,12 @@
 name: Release
 on:
+  workflow_run:
+    workflows: ["Test"]
+    branches: [main]
+    types: 
+      - completed
+
+on:
   push:
     branches:
       - main
@@ -21,6 +28,13 @@ jobs:
           pyenv install micropython-1.19.1
           pyenv local micropython-1.19.1
           micropython -m upip install -r requirements.txt -p 'firmware/'
+      - name: Run unittests
+        run: |
+          pyenv install 3.10.7
+          pyenv local 3.10.7
+          pip install -r test-requirements.txt
+          pytest
+
       - name: Archive Release
         uses: thedoctor0/zip-release@main
         with:
