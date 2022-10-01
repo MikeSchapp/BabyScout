@@ -3,7 +3,7 @@ import time
 import uos as os
 import _thread
 from lib.utils import retrieve_auth_variables, join_path, auth_variables_valid
-from lib.connection import PicoConnection
+from picoconnection import PicoConnection
 from lib.webpage import config_route, default_route
 from lib.scout import connect_to_baby_buddy
 from picowebrouter import WebRouter

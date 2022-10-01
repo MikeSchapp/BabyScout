@@ -32,8 +32,8 @@ def test_auth_variables_invalid():
     assert valid == False
 
 def test_auth_variables_invalid_wrong():
-    auth = retrieve_auth_variables(f"{os.getcwd()}/tests/fake_false_auth.json")
-    valid = auth_variables_valid(None)
+    auth = retrieve_auth_variables(f"{os.getcwd()}/tests/resources/fake_false_auth.json")
+    valid = auth_variables_valid(auth)
     assert valid == False
 
 def test_get_base_path():

@@ -11,7 +11,6 @@ class Pin:
 machine = type(sys)('machine')
 machine.Pin = Pin
 
-
 sys.modules['ujson'] = json
 sys.modules['urequests'] = requests
 sys.modules['uos'] = os
