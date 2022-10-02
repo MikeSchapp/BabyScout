@@ -27,7 +27,7 @@ jobs:
         uses: thedoctor0/zip-release@main
         with:
           type: 'zip'
-          directory: 'dist/firmware/'
+          directory: 'dist/'
           filename: 'release.zip'
       - name: Setup Node.js
         uses: actions/setup-node@v2
