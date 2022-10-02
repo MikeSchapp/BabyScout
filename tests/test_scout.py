@@ -1,5 +1,6 @@
 from unittest.mock import patch
 from lib.scout import Scout, connect_to_baby_buddy, send_api_request
+import pytest
 
 with patch('lib.scout.send_api_request') as mock_api:
     scout = Scout("fake_url")
@@ -109,3 +110,71 @@ def test_resolve_timers_current_timer(mock_api_request):
     # Test Initializing Scout class
     timer = scout.resolve_timers(0, "sleep", {"timer": 0})
     assert timer == None
+
+@patch('lib.scout.send_api_request')
+def test_next_child(mock_api_request):
+    # Test Initializing Scout class
+    mock_api_request.side_effect = [{"results": [{"id": 3}]}]
+    scout = Scout("fake_url")
+    next_child = scout.next_child()
+    assert next_child == 3
+
+@patch('lib.scout.send_api_request')
+def test_next_child_no_children(mock_api_request):
+    # Test Initializing Scout class
+    scout = Scout("fake_url")
+    with pytest.raises(IndexError) as e:
+        next_child = scout.next_child()
+
+@patch('lib.scout.send_api_request')
+def test_next_next_child(mock_api_request):
+    # Test Initializing Scout class
+    mock_api_request.side_effect = [{"results": [{"id": 3}, {"id": 5}]}]
+    scout = Scout("fake_url")
+    next_child = scout.next_child()
+    next_child = scout.next_child()
+    assert next_child == 5
+
+@patch('lib.scout.send_api_request')
+def test_next_put_of_index_child(mock_api_request):
+    # Test Initializing Scout class
+    mock_api_request.side_effect = [{"results": [{"id": 3}, {"id": 5}]}]
+    scout = Scout("fake_url")
+    next_child = scout.next_child()
+    next_child = scout.next_child()
+    next_child = scout.next_child()
+    assert next_child == 3
+
+@patch('lib.scout.send_api_request')
+def test_previous_child(mock_api_request):
+    # Test Initializing Scout class
+    mock_api_request.side_effect = [{"results": [{"id": 3}, {"id": 5}]}]
+    scout = Scout("fake_url")
+    previous_child = scout.previous_child()
+    assert previous_child == 5
+
+@patch('lib.scout.send_api_request')
+def test_previous_child_no_children(mock_api_request):
+    # Test Initializing Scout class
+    scout = Scout("fake_url")
+    with pytest.raises(IndexError) as e:
+        previous_child = scout.previous_child()
+
+@patch('lib.scout.send_api_request')
+def test_previous_previous_child(mock_api_request):
+    # Test Initializing Scout class
+    mock_api_request.side_effect = [{"results": [{"id": 3}, {"id": 5}]}]
+    scout = Scout("fake_url")
+    previous_child = scout.previous_child()
+    previous_child = scout.previous_child()
+    assert previous_child == 3
+
+@patch('lib.scout.send_api_request')
+def test_previous_out_of_index_child(mock_api_request):
+    # Test Initializing Scout class
+    mock_api_request.side_effect = [{"results": [{"id": 3}, {"id": 5}]}]
+    scout = Scout("fake_url")
+    previous_child = scout.previous_child()
+    previous_child = scout.previous_child()
+    previous_child = scout.previous_child()
+    assert previous_child == 5

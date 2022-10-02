@@ -120,9 +120,8 @@ class Scout:
         if self.child_index == None:
             self.child_index = len(self.children) - 1 
             return self.children[self.child_index]
-        max_index = len(self.children) - 1
         new_index = self.child_index - 1
-        if new_index < max_index:
+        if new_index < 0:
             new_index = len(self.children) - 1 
         self.child_index = new_index
         return self.children[new_index]
