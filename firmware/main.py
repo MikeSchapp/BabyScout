@@ -28,6 +28,7 @@ if auth_variables_valid(WLAN_VARIABLES):
         )
         BABY_SCOUT = connect_to_baby_buddy(base_url=WLAN_VARIABLES["BASE_URL"])
         # Set default to first child in BabyBuddy, add functionality to allow for toggling between multiple children.
+        BABY_SCOUT.next_child()
         child = BABY_SCOUT.children[0]
 
         # Create button matrix, matching gpio pin to the specific action you want to capture
@@ -49,7 +50,6 @@ if auth_variables_valid(WLAN_VARIABLES):
             buttons.append(create_button(button))
 
         # Loop through and check if any button has been pressed.
-
         def button_pressed():
             while True:
                 for index, button in enumerate(buttons):
@@ -57,7 +57,7 @@ if auth_variables_valid(WLAN_VARIABLES):
                         onboard_led(1)
                         time.sleep(0.5)
                         onboard_led(0)
-                        button_actions[index](child)
+                        button_actions[index](BABY_SCOUT.children[BABY_SCOUT.child_index])
 
         # Continually check and assure connectivity to wireless and babyscout
 
