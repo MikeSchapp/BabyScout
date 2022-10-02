@@ -9,6 +9,7 @@ class Scout:
         self.base_url = base_url
         self.children = []
         self.init_children()
+        self.child_index = None
 
     def init_children(self):
         path = "children"
@@ -100,6 +101,31 @@ class Scout:
         self.resolve_timers(child_id, activity, data)
         print("Recorded Bottle Feeding")
 
+    def next_child(self):
+        if len(self.children) == 0:
+            raise IndexError("No children setup in BabyBuddy")
+        if self.child_index == None:
+            self.child_index = 0
+            return self.children[0]
+        max_index = len(self.children) - 1
+        new_index = self.child_index + 1
+        if new_index > max_index:
+            new_index = 0
+        self.child_index = new_index
+        return self.children[new_index]
+
+    def previous_child(self):
+        if len(self.children) == 0:
+            raise IndexError("No children setup in BabyBuddy")
+        if self.child_index == None:
+            self.child_index = len(self.children) - 1 
+            return self.children[self.child_index]
+        max_index = len(self.children) - 1
+        new_index = self.child_index - 1
+        if new_index < max_index:
+            new_index = len(self.children) - 1 
+        self.child_index = new_index
+        return self.children[new_index]
 
 def connect_to_baby_buddy(base_url):
     # Attempt to establish connection to BabyBuddy Instance
