@@ -19,7 +19,7 @@ jobs:
           eval "$(pyenv init -)"
           pyenv install micropython-1.19.1
           pyenv local micropython-1.19.1
-          micropython -m upip install -r requirements.txt -p 'firmware/'
+          make dist
       - name: Setup Python 3.10
         uses: actions/setup-python@v4
         with:

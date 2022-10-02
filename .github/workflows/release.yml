@@ -22,12 +22,12 @@ jobs:
           eval "$(pyenv init -)"
           pyenv install micropython-1.19.1
           pyenv local micropython-1.19.1
-          micropython -m upip install -r requirements.txt -p 'firmware/'
+          make dist
       - name: Archive Release
         uses: thedoctor0/zip-release@main
         with:
           type: 'zip'
-          directory: 'firmware/'
+          directory: 'dist/firmware/'
           filename: 'release.zip'
       - name: Setup Node.js
         uses: actions/setup-node@v2
