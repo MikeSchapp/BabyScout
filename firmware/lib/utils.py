@@ -28,3 +28,12 @@ def get_base_path(path):
 def join_path(*args):
     path_list = list(args)
     return "/".join(path_list)
+
+class partial:
+    def __init__(self, func, *args, **kwargs):
+        self.func = func
+        self.args = args
+        self.kwargs = kwargs
+
+    def __call__(self, *args, **kwds):
+        return self.func(*self.args, *args, **kwds, **self.kwargs)

@@ -2,7 +2,7 @@ from lib.pin import create_button, onboard_led
 import time
 import uos as os
 import _thread
-from lib.utils import retrieve_auth_variables, join_path, auth_variables_valid
+from lib.utils import retrieve_auth_variables, join_path, auth_variables_valid, partial
 from picoconnection import PicoConnection
 from lib.webpage import config_route, default_route
 from lib.scout import connect_to_baby_buddy
@@ -29,25 +29,26 @@ if auth_variables_valid(WLAN_VARIABLES):
         BABY_SCOUT = connect_to_baby_buddy(base_url=WLAN_VARIABLES["BASE_URL"])
         # Set default to first child in BabyBuddy, add functionality to allow for toggling between multiple children.
         BABY_SCOUT.next_child()
-        child = BABY_SCOUT.children[0]
 
         # Create button matrix, matching gpio pin to the specific action you want to capture
         button_gpio_pins = [9, 8, 7, 6, 5, 4, 3, 2]
         button_actions = [
-            BABY_SCOUT.left_breast,
-            BABY_SCOUT.breast_feed,
-            BABY_SCOUT.right_breast,
-            BABY_SCOUT.bottle_feed,
-            BABY_SCOUT.wet_diaper,
-            BABY_SCOUT.solid_diaper,
-            BABY_SCOUT.wet_solid_diaper,
-            BABY_SCOUT.sleep,
+            partial(BABY_SCOUT.left_breast, BABY_SCOUT.children[BABY_SCOUT.child_index]),
+            partial(BABY_SCOUT.breast_feed, BABY_SCOUT.children[BABY_SCOUT.child_index]),
+            partial(BABY_SCOUT.right_breast, BABY_SCOUT.children[BABY_SCOUT.child_index]),
+            partial(BABY_SCOUT.bottle_feed, BABY_SCOUT.children[BABY_SCOUT.child_index]),
+            partial(BABY_SCOUT.wet_diaper, BABY_SCOUT.children[BABY_SCOUT.child_index]),
+            partial(BABY_SCOUT.solid_diaper, BABY_SCOUT.children[BABY_SCOUT.child_index]),
+            partial(BABY_SCOUT.wet_solid_diaper, BABY_SCOUT.children[BABY_SCOUT.child_index]),
+            partial(BABY_SCOUT.sleep, BABY_SCOUT.children[BABY_SCOUT.child_index])
         ]
 
         # Initialize buttons
         buttons = []
         for button in button_gpio_pins:
             buttons.append(create_button(button))
+
+        button_actions[4]()
 
         # Loop through and check if any button has been pressed.
         def button_pressed():
@@ -85,4 +86,5 @@ if ap_mode:
     app = WebRouter(ip, 80, default_route, "webpages/static")
     app.route("/config")(config_route)()
     app.serve()
+
 
