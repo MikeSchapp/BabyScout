@@ -48,8 +48,6 @@ if auth_variables_valid(WLAN_VARIABLES):
         for button in button_gpio_pins:
             buttons.append(create_button(button))
 
-        button_actions[4]()
-
         # Loop through and check if any button has been pressed.
         def button_pressed():
             while True:
