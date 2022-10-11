@@ -1,2 +1,2 @@
 micropython-picowebrouter==0.1.2
-micropython-picoconnection==0.0.0
+micropython-picoconnection==0.0.1
