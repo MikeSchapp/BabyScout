@@ -56,20 +56,23 @@ if auth_variables_valid(WLAN_VARIABLES):
                         onboard_led(1)
                         time.sleep(0.5)
                         onboard_led(0)
-                        button_actions[index](BABY_SCOUT.children[BABY_SCOUT.child_index])
-
-        # Continually check and assure connectivity to wireless and babyscout
-
-        def ensure_connection():
-            while True:
-                print("Testing Connection")
-                if not pico_connection.wlan.isconnected():
-                    print("Lost Connection, Rebooting")
-                    machine.reset()
-                time.sleep(10)
-
-        # Start thread to ensure internet connection
-        _thread.start_new_thread(ensure_connection, ())
+                        try:
+                            button_actions[index]()
+                        except Exception as e:
+                            print(f"Error: {e}")
+                            # Continually check and assure connectivity to wireless and babyscout
+                            print(f"Command failed to send, checking connection: {pico_connection.wlan.status()}")
+                            if pico_connection.wlan.status() <= 0 or pico_connection.wlan.status() >= 3:
+                                print("Lost connection, reconnecting...")
+                                pico_connection.wlan.disconnect()
+                                pico_connection.connect_to_access_point(
+                                    nearby_matching_access_point,
+                                    WLAN_VARIABLES["SSIDS_PASSWORD"][nearby_matching_access_point],
+                                )
+                                if pico_connection.wlan.status() == 3:
+                                    print("Reconnected")
+                                    button_actions[index]()
+                                else: print("Failed to reconnect")
 
         # Begin button checking loop
         button_pressed()
