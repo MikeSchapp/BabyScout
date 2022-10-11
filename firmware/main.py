@@ -22,10 +22,12 @@ if auth_variables_valid(WLAN_VARIABLES):
         WLAN_VARIABLES.get("SSIDS_PASSWORD").keys()
     )
     if nearby_matching_access_point:
+        onboard_led(1)
         pico_connection.connect_to_access_point(
             nearby_matching_access_point,
             WLAN_VARIABLES["SSIDS_PASSWORD"][nearby_matching_access_point],
         )
+        onboard_led(0)
         BABY_SCOUT = connect_to_baby_buddy(base_url=WLAN_VARIABLES["BASE_URL"])
         # Set default to first child in BabyBuddy, add functionality to allow for toggling between multiple children.
         BABY_SCOUT.next_child()
