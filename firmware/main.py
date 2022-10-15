@@ -83,6 +83,7 @@ if auth_variables_valid(WLAN_VARIABLES):
 else:
     ap_mode = True
 if ap_mode:
+    # Start ap mode to allow for conffiguration of BabyScout via wifi access point.
     print("No matching wifi, falling back to webpage based setup.")
     ap = pico_connection.access_point_wifi_setup("BabyScout", "BabyBuddy")
     ip = ap.ifconfig()[0]
