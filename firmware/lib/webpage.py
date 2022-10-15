@@ -4,13 +4,22 @@ import machine
 from lib import template
 
 
-def load_webpage(location):
-    with open(location, "r") as website:
+def load_webpage(path):
+
+    """
+    Open and return string copy of webpage
+
+    params:
+        path(str): path pointing to webpage file
+    """
+    with open(path, "r") as website:
         webpage = website.read()
     return webpage
 
 
 def default_route(*args, **kwargs):
+
+    """Default page for new users of BabyScout to land on"""
     options = [
         {"ssid": "SSID:"},
         {"password": "Password:"},
@@ -27,6 +36,7 @@ def default_route(*args, **kwargs):
 
 
 def config_route(*args, **kwargs):
+    """Page used to recive and process new secrets into a secrets.json file"""
     request = kwargs.get("request")
     secret_json = {}
     if request.query_strings:
