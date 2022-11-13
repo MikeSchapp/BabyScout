@@ -83,11 +83,13 @@ if auth_variables_valid(WLAN_VARIABLES):
 else:
     ap_mode = True
 if ap_mode:
+    # Grab nearby access points for later configuration
+    nearby_access_points = pico_connection.nearby_access_points
     # Start ap mode to allow for conffiguration of BabyScout via wifi access point.
-    print("No matching wifi, falling back to webpage based setup.")
+    print("No matching wifi or babybuddy configuration, falling back to webpage based setup.")
     ap = pico_connection.access_point_wifi_setup("BabyScout", "BabyBuddy")
     ip = ap.ifconfig()[0]
-    app = WebRouter(ip, 80, default_route, "webpages/static")
+    app = WebRouter(ip, 80, partial(default_route, nearby_access_points), "webpages/static")
     app.route("/config")(config_route)()
     app.serve()
 
