@@ -18,7 +18,15 @@ def test_load_webpage():
 @patch("lib.webpage.template.render_template")
 @patch("lib.webpage.load_webpage")
 def test_default_route(mock_webpage, render_template):
-    webpage = default_route()
+    webpage = default_route(["test_ap"])
     mock_webpage.assert_called_with('webpages/default.html')
+
+
+@patch("lib.webpage.template.render_template")
+@patch("lib.webpage.load_webpage")
+def test_no_nearby_access_points(mock_webpage, render_template):
+    webpage = default_route([])
+    mock_webpage.assert_called_with('webpages/default.html')
+
 
 
