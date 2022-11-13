@@ -21,22 +21,32 @@ def default_route(*args, **kwargs):
 
     """Default page for new users of BabyScout to land on"""
     options = [
-        {"ssid": "SSID:"},
         {"password": "Password:"},
         {"babybuddy": "BabyBuddy URL:"},
         {"babyauth": "BabyBuddy API Key"},
     ]
     render = ""
+    access_point_options = """
+    <select id="ssid" name="ssid">
+    """
+    for ap in args[0]:
+        access_point_options += f'''
+        <option value="{ap}">{ap}</option>
+        '''
+    access_point_options += "</select><br><br>"
+    render += access_point_options
     for option in options:
         for key, value in option.items():
-            render += f""" <input type="text" id="{key}" name="{key}" placeholder="{value}"><br><br>"""
+            render += f""" 
+            <input type="text" id="{key}" name="{key}" placeholder="{value}"><br><br>
+            """
     return template.render_template(
         load_webpage("webpages/default.html"), {"render": render}
     )
 
 
 def config_route(*args, **kwargs):
-    """Page used to recive and process new secrets into a secrets.json file"""
+    """Page used to recieve and process new secrets into a secrets.json file"""
     request = kwargs.get("request")
     secret_json = {}
     if request.query_strings:
