@@ -38,7 +38,7 @@ Upon connecting to the AP, if you browse to http://192.168.4.1/ and fill out the
 
 ## TODO
 
-* Create script to automatically upload firmware to the pico w
+* Create script to automatically upload firmware to the pico w 
 * Automatic Updates?
 * Add way to obfuscate stored secrets
 
