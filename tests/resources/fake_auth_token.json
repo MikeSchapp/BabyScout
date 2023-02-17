@@ -6,6 +6,6 @@
     "AUTHORIZATION": {
         "CF-Access-Client-Id": "my cloudfront tunnel id",
         "CF-Access-Client-Secret": "my cloudfront tunnel secret",
-        "Authorization": "Test"
+        "Authorization": "Token Test"
     }
 }

@@ -9,12 +9,16 @@ fake_auth = {
     "AUTHORIZATION": {
         "CF-Access-Client-Id": "my cloudfront tunnel id",
         "CF-Access-Client-Secret": "my cloudfront tunnel secret",
-        "Authorization": "Token my baby buddy token "
+        "Authorization": "Token Test"
     }
 }
 
 def test_retrieve_auth_variables():
     auth = retrieve_auth_variables(f"{os.getcwd()}/tests/resources/fake_auth.json")
+    assert auth == fake_auth
+
+def test_retrieve_auth_variables_token():
+    auth = retrieve_auth_variables(f"{os.getcwd()}/tests/resources/fake_auth_token.json")
     assert auth == fake_auth
 
 def test_failed_retrieve_auth_variables():
