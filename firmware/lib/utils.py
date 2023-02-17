@@ -11,7 +11,12 @@ def retrieve_auth_variables(auth_path):
     """
     try:
         with open(auth_path) as open_auth:
-            return json.load(open_auth)
+            read_auth = json.load(open_auth)
+            if "AUTHORIZATION" in read_auth.keys():
+                if "Authorization" in read_auth["AUTHORIZATION"].keys():
+                    if "Token" not in read_auth["AUTHORIZATION"]["Authorization"]:
+                        read_auth["AUTHORIZATION"]["Authorization"] = "Token " + read_auth["AUTHORIZATION"]["Authorization"]
+            return read_auth
     except:
         return None
 
