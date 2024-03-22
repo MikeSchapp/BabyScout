@@ -71,6 +71,7 @@ class Scout:
         timer = send_api_request(
             self.base_url, path=path, data={"child": child_id, "name": activity}
         )
+        print("Timer started for " + activity)
         return timer
 
     def get_timer(self, child_id, activity):
@@ -88,7 +89,6 @@ class Scout:
             if (
                 timer["name"] == activity
                 and timer["child"] == child_id
-                and timer["active"] == True
             ):
                 return timer
         return None
@@ -101,6 +101,7 @@ class Scout:
         """
         activity = "sleep"
         self.resolve_timers(child_id, activity)
+        print("Recorded Sleep")
 
     def tummy_time(self, child_id):
         """
